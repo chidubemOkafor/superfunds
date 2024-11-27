@@ -1,0 +1,62 @@
+.main_form_container{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.form_container {
+    width: 20em;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(140, 140, 140);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.close_btn {
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    padding-left: 15.3em;
+    cursor: pointer;
+}
+
+.close_btn:hover {
+    color: blue;
+}
+
+.create_campaign_text {
+    font-size: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+input {
+ background-color: rgba(0, 0, 0, 0.5);
+ border: 1px solid rgb(140, 140, 140);
+ color: white;
+}
+@keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
