@@ -17,13 +17,13 @@ const Navbar = () => {
             <p className="title">
             superfund
             </p>
-        <div className="connect_div">
-            {address == "" || <p>{truncateAddress(address as string)}</p>}
-            <button className='' onClick={connect}>
-                {status ? "connected" :  "connect wallet"}
-            </button>
-            {networkText}
-        </div>
+            <div className="connect_div">
+                {address == "" || <p>{truncateAddress(address as string)}</p>}
+                <button className='' onClick={connect}>
+                    {status ? "connected" :  "connect wallet"}
+                </button>
+                {networkText}
+            </div>
         </div>
     )
 }
