@@ -1,0 +1,12 @@
+type CreateFundingEvent @entity(immutable: true) {
+  id: Bytes!
+  creator: Bytes! # address
+  issueLink: String! # string
+  maxAmount: BigInt! # uint256
+  unlockTime: BigInt! # uint256
+  minAmount: BigInt! # uint256
+  feePercentage: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
