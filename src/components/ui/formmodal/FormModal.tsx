@@ -20,7 +20,6 @@ const FormModal:React.FC<Toggle> = (
     loading,
   }) => {
 
-
   return (
     <div className = "main_form_container">
         <div className = "form_container">

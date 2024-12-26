@@ -7,7 +7,7 @@ import { ToggleModalProvider } from './contexts/ToggleContext/ToggleModal.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ToggleModalProvider>
-      <App />
+        <App />
     </ToggleModalProvider>
   </StrictMode>,
 )

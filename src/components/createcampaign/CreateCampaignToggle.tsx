@@ -8,6 +8,7 @@ import { ethers } from "ethers"
 import { parseDateToUnix } from "../../utils/parseDateToUnix"
 import { notification, Ntype } from "../../utils/notification"
 
+
 interface Data {
     campaignName: string
     targetAmount: string
@@ -19,7 +20,7 @@ const CreateCampaignToggle = () => {
     const { address } = useAddressContext()
     const [loading, setLoading] = useState(false)
     const { state, setState } = useModalToggle()
-    const {handleNotification} = notification()
+    const { handleNotification } = notification()
    
 
     const [data, setData] = useState<Data>({
