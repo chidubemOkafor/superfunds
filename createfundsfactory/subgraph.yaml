@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: Funding
-    network: mainnet
+    name: CreateFunding
+    network: sepolia
     source:
       address: "0x05854bFE5a891aBDc802c1871cF55f75b4f1ba29"
-      abi: Funding
+      abi: CreateFunding
       startBlock: 7359499
     mapping:
       kind: ethereum/events
@@ -18,9 +18,9 @@ dataSources:
       entities:
         - CreateFundingEvent
       abis:
-        - name: Funding
-          file: ./abis/Funding.json
+        - name: CreateFunding
+          file: ./abis/CreateFunding.json
       eventHandlers:
         - event: CreateFundingEvent(indexed address,string,uint256,uint256,uint256,uint256)
           handler: handleCreateFundingEvent
-      file: ./src/funding.ts
+      file: ./src/create-funding.ts

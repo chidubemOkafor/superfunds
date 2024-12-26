@@ -1,6 +1,6 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts"
-import { CreateFundingEvent } from "../generated/Funding/Funding"
+import { CreateFundingEvent } from "../generated/CreateFunding/CreateFunding"
 
 export function createCreateFundingEventEvent(
   creator: Address,

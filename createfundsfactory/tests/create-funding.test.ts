@@ -8,9 +8,9 @@ import {
 } from "matchstick-as/assembly/index"
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { CreateFundingEvent } from "../generated/schema"
-import { CreateFundingEvent as CreateFundingEventEvent } from "../generated/Funding/Funding"
-import { handleCreateFundingEvent } from "../src/funding"
-import { createCreateFundingEventEvent } from "./funding-utils"
+import { CreateFundingEvent as CreateFundingEventEvent } from "../generated/CreateFunding/CreateFunding"
+import { handleCreateFundingEvent } from "../src/create-funding"
+import { createCreateFundingEventEvent } from "./create-funding-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0

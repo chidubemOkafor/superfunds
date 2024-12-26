@@ -1,6 +1,6 @@
 {
-  "mainnet": {
-    "Funding": {
+  "sepolia": {
+    "CreateFunding": {
       "address": "0x05854bFE5a891aBDc802c1871cF55f75b4f1ba29",
       "startBlock": 7359499
     }

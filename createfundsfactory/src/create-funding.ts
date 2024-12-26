@@ -1,4 +1,4 @@
-import { CreateFundingEvent as CreateFundingEventEvent } from "../generated/Funding/Funding"
+import { CreateFundingEvent as CreateFundingEventEvent } from "../generated/CreateFunding/CreateFunding"
 import { CreateFundingEvent } from "../generated/schema"
 
 export function handleCreateFundingEvent(event: CreateFundingEventEvent): void {
