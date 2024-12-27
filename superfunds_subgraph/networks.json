@@ -2,7 +2,7 @@
   "sepolia": {
     "CreateFunding": {
       "address": "0x5C6C2861D15FcF93DbaBd8034235dCdeD9dc5946",
-      "startBlock": 7361467
+      "startBlock": 7359601
     }
   }
 }
