@@ -8,7 +8,8 @@ export function createCreateFundingEventEvent(
   maxAmount: BigInt,
   unlockTime: BigInt,
   minAmount: BigInt,
-  feePercentage: BigInt
+  feePercentage: BigInt,
+  newFundingAddress: Address
 ): CreateFundingEvent {
   let createFundingEventEvent = changetype<CreateFundingEvent>(newMockEvent())
 
@@ -42,6 +43,12 @@ export function createCreateFundingEventEvent(
     new ethereum.EventParam(
       "feePercentage",
       ethereum.Value.fromUnsignedBigInt(feePercentage)
+    )
+  )
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam(
+      "newFundingAddress",
+      ethereum.Value.fromAddress(newFundingAddress)
     )
   )
 

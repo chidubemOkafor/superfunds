@@ -11,6 +11,7 @@ export function handleCreateFundingEvent(event: CreateFundingEventEvent): void {
   entity.unlockTime = event.params.unlockTime
   entity.minAmount = event.params.minAmount
   entity.feePercentage = event.params.feePercentage
+  entity.newFundingAddress = event.params.newFundingAddress
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp

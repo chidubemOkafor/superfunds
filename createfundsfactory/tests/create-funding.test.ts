@@ -25,13 +25,17 @@ describe("Describe entity assertions", () => {
     let unlockTime = BigInt.fromI32(234)
     let minAmount = BigInt.fromI32(234)
     let feePercentage = BigInt.fromI32(234)
+    let newFundingAddress = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
     let newCreateFundingEventEvent = createCreateFundingEventEvent(
       creator,
       issueLink,
       maxAmount,
       unlockTime,
       minAmount,
-      feePercentage
+      feePercentage,
+      newFundingAddress
     )
     handleCreateFundingEvent(newCreateFundingEventEvent)
   })
@@ -82,6 +86,12 @@ describe("Describe entity assertions", () => {
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "feePercentage",
       "234"
+    )
+    assert.fieldEquals(
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "newFundingAddress",
+      "0x0000000000000000000000000000000000000001"
     )
 
     // More assert options:

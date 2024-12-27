@@ -6,6 +6,7 @@ type CreateFundingEvent @entity(immutable: true) {
   unlockTime: BigInt! # uint256
   minAmount: BigInt! # uint256
   feePercentage: BigInt! # uint256
+  newFundingAddress: Bytes! # address
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!

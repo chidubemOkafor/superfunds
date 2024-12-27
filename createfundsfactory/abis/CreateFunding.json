@@ -37,6 +37,12 @@
         "internalType": "uint256",
         "name": "feePercentage",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newFundingAddress",
+        "type": "address"
       }
     ],
     "name": "CreateFundingEvent",
