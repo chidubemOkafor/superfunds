@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: Contract
+    name: CreateFunding
     network: sepolia
     source:
       address: "0xd721605E3406d46d5150caE304995A2c464925c4"
-      abi: Contract
+      abi: CreateFunding
       startBlock: 7375302
     mapping:
       kind: ethereum/events
@@ -21,8 +21,8 @@ dataSources:
         - FundsWithdrawn
         - GoalReached
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: CreateFunding
+          file: ./abis/CreateFunding.json
       eventHandlers:
         - event: ContributionMade(indexed address,uint256,uint256)
           handler: handleContributionMade
@@ -32,4 +32,4 @@ dataSources:
           handler: handleFundsWithdrawn
         - event: GoalReached()
           handler: handleGoalReached
-      file: ./src/contract.ts
+      file: ./src/create-funding.ts

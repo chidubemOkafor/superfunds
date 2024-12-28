@@ -1,6 +1,6 @@
 {
   "sepolia": {
-    "Contract": {
+    "CreateFunding": {
       "address": "0xd721605E3406d46d5150caE304995A2c464925c4",
       "startBlock": 7375302
     }

@@ -3,7 +3,7 @@ import {
   FeeTransferred as FeeTransferredEvent,
   FundsWithdrawn as FundsWithdrawnEvent,
   GoalReached as GoalReachedEvent
-} from "../generated/Contract/Contract"
+} from "../generated/CreateFunding/CreateFunding"
 import {
   ContributionMade,
   FeeTransferred,

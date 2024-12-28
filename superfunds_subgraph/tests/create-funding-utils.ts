@@ -5,7 +5,7 @@ import {
   FeeTransferred,
   FundsWithdrawn,
   GoalReached
-} from "../generated/Contract/Contract"
+} from "../generated/CreateFunding/CreateFunding"
 
 export function createContributionMadeEvent(
   sender: Address,
