@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Input } from '../input'
 import { FormikErrors } from 'formik'
 import { FormValues } from '../../createproposal/CreateProposal'

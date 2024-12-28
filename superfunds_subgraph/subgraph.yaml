@@ -5,22 +5,31 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: CreateFunding
+    name: Contract
     network: sepolia
     source:
-      address: "0x5C6C2861D15FcF93DbaBd8034235dCdeD9dc5946"
-      abi: CreateFunding
-      startBlock: 7359601
+      address: "0xd721605E3406d46d5150caE304995A2c464925c4"
+      abi: Contract
+      startBlock: 7375302
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - CreateFundingEvent
+        - ContributionMade
+        - FeeTransferred
+        - FundsWithdrawn
+        - GoalReached
       abis:
-        - name: CreateFunding
-          file: ./abis/CreateFunding.json
+        - name: Contract
+          file: ./abis/Contract.json
       eventHandlers:
-        - event: CreateFundingEvent(indexed address,string,uint256,uint256,uint256,uint256,address)
-          handler: handleCreateFundingEvent
-      file: ./src/create-funding.ts
+        - event: ContributionMade(indexed address,uint256,uint256)
+          handler: handleContributionMade
+        - event: FeeTransferred(indexed address,uint256)
+          handler: handleFeeTransferred
+        - event: FundsWithdrawn(indexed address,uint256)
+          handler: handleFundsWithdrawn
+        - event: GoalReached()
+          handler: handleGoalReached
+      file: ./src/contract.ts

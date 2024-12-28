@@ -20,10 +20,10 @@ import Navbar from './components/navbar/Navbar'
 import { AddressProvider } from './contexts/AddressContext/AddressContext'
 import { Routes, Route, BrowserRouter } from 'react-router';
 import Home from './pages/home/Home'
-import Campaign from './components/campaign/Campaign';
 import Footer from './components/footer/Footer';
 import CreateProposal from './components/createproposal/CreateProposal';
 import NotFound from './pages/404/NotFound';
+import Proposal from './pages/proposal/Proposal';
 
 /* New API that includes Wagmi's createConfig and replaces getDefaultWallets and connectorsForWallets */
 const config = getDefaultConfig({
@@ -33,10 +33,15 @@ const config = getDefaultConfig({
   ssr: true,
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+})
 
 function App() {
-
   return (
     <>
       <WagmiProvider config={config}>
@@ -47,8 +52,8 @@ function App() {
             <Navbar/>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="proposal/:campaign" element={<Campaign />} />
               <Route path="create" element={<CreateProposal/>} />
+              <Route path="proposal/:id" element={<Proposal/>} />
               <Route path="*" element={<NotFound/>}/>
             </Routes>
             <Footer/>

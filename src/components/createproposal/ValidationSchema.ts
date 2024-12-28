@@ -7,11 +7,7 @@ export const ValidationSchema = Yup.object().shape({
         'is-github-url',
         'The URL must be a GitHub URL',
         (value) => !value || value.includes('github.com')
-      ).test('is-github-issue',
-        'The URL must be a Github issue',
-        (value) => !value || value.includes('issue')
-      )
-      .required('GitHub URL is required'),
+      ).required('GitHub URL is required'),
     maxAmount: Yup.number().test(
         'is-greater-than-0',
         'maximum amount must be greater than 0',

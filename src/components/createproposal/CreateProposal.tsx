@@ -7,7 +7,7 @@ import { useAccount } from "wagmi"
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import AlertBox from '../ui/AlertBox';
 import { ethers } from 'ethers';
-import connectContract from '../../config/contractConfig';
+import { connectContract } from '../../config/contractConfig';
 import { useState } from 'react';
 import { Spinner } from './Spinner';
 import { useNotification } from '../../hook/useNotification';
@@ -56,7 +56,7 @@ const CreateProposal:React.FC = () => {
         feePercentage: values.fee,
       };
   
-      const fundingContract = await connectContract();
+      const fundingContract = await connectContract({type: 'factory'});
       if (!fundingContract) {
         console.error("Failed to connect to contract");
         throw new Error("Contract connection failed");
@@ -104,7 +104,7 @@ const CreateProposal:React.FC = () => {
           <Form className="w-[31em] flex flex-col gap-7">
             <div className="flex flex-col gap-1">
               <label htmlFor="issueLink" className="font-bold">
-                GitHub Issue Link<span className="text-red-600">*</span>
+                GitHub repository Link<span className="text-red-600">*</span>
               </label>
               <Input
                 id="issueLink"
@@ -127,7 +127,7 @@ const CreateProposal:React.FC = () => {
                 id="maxAmount"
                 name="maxAmount"
                 type="number"
-                step="0.01"
+                step="0.005"
                 min={0}
                 placeholder="Maximum Amount"
                 onChange={handleChange}
@@ -213,13 +213,14 @@ const CreateProposal:React.FC = () => {
             {isConnected ? 
             <button
               type="submit"
+              disabled={isLoading}
               className={`bg-[#0f50e7d8] rounded-md p-[10px] border-none text-white font-bold flex items-center justify-center text-[16px] ${isLoading ? 'cursor-not-allowed bg-[#7196eed8]' : ''}`}
             >
               {!isLoading ? <IoFlash className="h-[40px] w-[40px]" /> : <Spinner className='mr-5 text-[20px]'/>}
               Create Proposal
             </button> : 
                 <div className='flex flex-col gap-3'>
-                    <AlertBox description={'your wallet is not connected!'} />
+                    <AlertBox description={'your wallet is not connected!'} type='error'/>
                     <ConnectButton/>
                 </div>       
             }

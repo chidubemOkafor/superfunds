@@ -1,36 +1,16 @@
 import { IoFlash } from "react-icons/io5";
 import { FcMoneyTransfer, FcDonate } from "react-icons/fc";
-import { useNavigate } from "react-router";
-import { useAccount } from "wagmi"
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-
+import { useNavigationAndToggleModal } from "../../hook/useNavigationAndToggleModal";
 
 const CallToAction = () => {
-  const { isConnected } = useAccount()
-  const { openConnectModal } = useConnectModal();
-  const navigate = useNavigate()
+  const { handleNavigation } = useNavigationAndToggleModal()
+
   const stepsDiv = 'flex justify-between'
   const steps = 'w-[13em] bg-[#f6f3f3] p-[10px] rounded-md border-[2px] border-[#d3d3d3] cursor-pointer flex flex-col items-center text-center'
   const icons = 'h-[40px] w-[40px]'
   const h4 = 'font-semibold'
   const actionP = 'font-normal text-gray-600'
 
-
-  const handleNavigation = async() => {
-    console.log(isConnected)
-    try {
-      if (isConnected) {
-        navigate('/create');
-      } else {
-        (openConnectModal as () => void)(); // Type assertion
-      }
-    } catch(error) {
-      console.error(error)
-    }
-
-  };
-  
-  
   return (
     <div className='py-10'>
         <div className='py-10 flex flex-col gap-3'>

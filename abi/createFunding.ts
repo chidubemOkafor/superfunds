@@ -1,4 +1,4 @@
-export const abi =  [
+export const create_funding_abi =  [
   {
     "anonymous": false,
     "inputs": [
@@ -37,6 +37,12 @@ export const abi =  [
         "internalType": "uint256",
         "name": "feePercentage",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newFundingAddress",
+        "type": "address"
       }
     ],
     "name": "CreateFundingEvent",

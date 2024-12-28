@@ -1,12 +1,34 @@
-type CreateFundingEvent @entity(immutable: true) {
+type ContributionMade @entity(immutable: true) {
   id: Bytes!
-  creator: Bytes! # address
-  issueLink: String! # string
-  maxAmount: BigInt! # uint256
-  unlockTime: BigInt! # uint256
-  minAmount: BigInt! # uint256
-  feePercentage: BigInt! # uint256
-  newFundingAddress: Bytes! # address
+  sender: Bytes! # address
+  amount: BigInt! # uint256
+  totalAmount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FeeTransferred @entity(immutable: true) {
+  id: Bytes!
+  factoryOwner: Bytes! # address
+  fee: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FundsWithdrawn @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type GoalReached @entity(immutable: true) {
+  id: Bytes!
+
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
