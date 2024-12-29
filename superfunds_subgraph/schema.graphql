@@ -1,6 +1,13 @@
-type ExampleEntity @entity {
+type CreateFundingEvent @entity(immutable: true) {
   id: Bytes!
-  count: BigInt!
   creator: Bytes! # address
   issueLink: String! # string
+  maxAmount: BigInt! # uint256
+  unlockTime: BigInt! # uint256
+  minAmount: BigInt! # uint256
+  feePercentage: BigInt! # uint256
+  newFundingAddress: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
 }

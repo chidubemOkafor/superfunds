@@ -7,8 +7,8 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { ExampleEntity } from "../generated/schema"
-import { CreateFundingEvent } from "../generated/CreateFunding/CreateFunding"
+import { CreateFundingEvent } from "../generated/schema"
+import { CreateFundingEvent as CreateFundingEventEvent } from "../generated/CreateFunding/CreateFunding"
 import { handleCreateFundingEvent } from "../src/create-funding"
 import { createCreateFundingEventEvent } from "./create-funding-utils"
 
@@ -47,49 +47,49 @@ describe("Describe entity assertions", () => {
   // For more test scenarios, see:
   // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
-  test("ExampleEntity created and stored", () => {
-    assert.entityCount("ExampleEntity", 1)
+  test("CreateFundingEvent created and stored", () => {
+    assert.entityCount("CreateFundingEvent", 1)
 
     // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "creator",
       "0x0000000000000000000000000000000000000001"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "issueLink",
       "Example string value"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "maxAmount",
       "234"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "unlockTime",
       "234"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "minAmount",
       "234"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "feePercentage",
       "234"
     )
     assert.fieldEquals(
-      "ExampleEntity",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a",
+      "CreateFundingEvent",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "newFundingAddress",
       "0x0000000000000000000000000000000000000001"
     )
