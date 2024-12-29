@@ -16,20 +16,11 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - ContributionMade
-        - FeeTransferred
-        - FundsWithdrawn
-        - GoalReached
+        - CreateFundingEvent
       abis:
         - name: CreateFunding
           file: ./abis/CreateFunding.json
       eventHandlers:
-        - event: ContributionMade(indexed address,uint256,uint256)
-          handler: handleContributionMade
-        - event: FeeTransferred(indexed address,uint256)
-          handler: handleFeeTransferred
-        - event: FundsWithdrawn(indexed address,uint256)
-          handler: handleFundsWithdrawn
-        - event: GoalReached()
-          handler: handleGoalReached
+        - event: CreateFundingEvent(indexed address,string,uint256,uint256,uint256,uint256,address)
+          handler: handleCreateFundingEvent
       file: ./src/create-funding.ts

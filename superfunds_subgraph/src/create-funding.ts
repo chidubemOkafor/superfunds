@@ -1,67 +1,52 @@
+import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import {
-  ContributionMade as ContributionMadeEvent,
-  FeeTransferred as FeeTransferredEvent,
-  FundsWithdrawn as FundsWithdrawnEvent,
-  GoalReached as GoalReachedEvent
+  CreateFunding,
+  CreateFundingEvent
 } from "../generated/CreateFunding/CreateFunding"
-import {
-  ContributionMade,
-  FeeTransferred,
-  FundsWithdrawn,
-  GoalReached
-} from "../generated/schema"
+import { ExampleEntity } from "../generated/schema"
 
-export function handleContributionMade(event: ContributionMadeEvent): void {
-  let entity = new ContributionMade(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
+export function handleCreateFundingEvent(event: CreateFundingEvent): void {
+  // Entities can be loaded from the store using an ID; this ID
+  // needs to be unique across all entities of the same type
+  const id = event.transaction.hash.concat(
+    Bytes.fromByteArray(Bytes.fromBigInt(event.logIndex))
   )
-  entity.sender = event.params.sender
-  entity.amount = event.params.amount
-  entity.totalAmount = event.params.totalAmount
+  let entity = ExampleEntity.load(id)
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  // Entities only exist after they have been saved to the store;
+  // `null` checks allow to create entities on demand
+  if (!entity) {
+    entity = new ExampleEntity(id)
 
+    // Entity fields can be set using simple assignments
+    entity.count = BigInt.fromI32(0)
+  }
+
+  // BigInt and BigDecimal math are supported
+  entity.count = entity.count + BigInt.fromI32(1)
+
+  // Entity fields can be set based on event parameters
+  entity.creator = event.params.creator
+  entity.issueLink = event.params.issueLink
+
+  // Entities can be written to the store with `.save()`
   entity.save()
-}
 
-export function handleFeeTransferred(event: FeeTransferredEvent): void {
-  let entity = new FeeTransferred(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.factoryOwner = event.params.factoryOwner
-  entity.fee = event.params.fee
+  // Note: If a handler doesn't require existing field values, it is faster
+  // _not_ to load the entity from the store. Instead, create it fresh with
+  // `new Entity(...)`, set the fields that should be updated and save the
+  // entity back to the store. Fields that were not set or unset remain
+  // unchanged, allowing for partial updates to be applied.
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleFundsWithdrawn(event: FundsWithdrawnEvent): void {
-  let entity = new FundsWithdrawn(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.owner = event.params.owner
-  entity.amount = event.params.amount
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleGoalReached(event: GoalReachedEvent): void {
-  let entity = new GoalReached(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  // It is also possible to access smart contracts from mappings. For
+  // example, the contract that has emitted the event can be connected to
+  // with:
+  //
+  // let contract = Contract.bind(event.address)
+  //
+  // The following functions can then be called on this contract to access
+  // state variables and other data:
+  //
+  // - contract.FundingArray(...)
+  // - contract.getAllFundingCampaign(...)
 }

@@ -1,35 +1,6 @@
-type ContributionMade @entity(immutable: true) {
+type ExampleEntity @entity {
   id: Bytes!
-  sender: Bytes! # address
-  amount: BigInt! # uint256
-  totalAmount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type FeeTransferred @entity(immutable: true) {
-  id: Bytes!
-  factoryOwner: Bytes! # address
-  fee: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type FundsWithdrawn @entity(immutable: true) {
-  id: Bytes!
-  owner: Bytes! # address
-  amount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type GoalReached @entity(immutable: true) {
-  id: Bytes!
-
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  count: BigInt!
+  creator: Bytes! # address
+  issueLink: String! # string
 }

@@ -1,80 +1,56 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address, BigInt } from "@graphprotocol/graph-ts"
-import {
-  ContributionMade,
-  FeeTransferred,
-  FundsWithdrawn,
-  GoalReached
-} from "../generated/CreateFunding/CreateFunding"
+import { CreateFundingEvent } from "../generated/CreateFunding/CreateFunding"
 
-export function createContributionMadeEvent(
-  sender: Address,
-  amount: BigInt,
-  totalAmount: BigInt
-): ContributionMade {
-  let contributionMadeEvent = changetype<ContributionMade>(newMockEvent())
+export function createCreateFundingEventEvent(
+  creator: Address,
+  issueLink: string,
+  maxAmount: BigInt,
+  unlockTime: BigInt,
+  minAmount: BigInt,
+  feePercentage: BigInt,
+  newFundingAddress: Address
+): CreateFundingEvent {
+  let createFundingEventEvent = changetype<CreateFundingEvent>(newMockEvent())
 
-  contributionMadeEvent.parameters = new Array()
+  createFundingEventEvent.parameters = new Array()
 
-  contributionMadeEvent.parameters.push(
-    new ethereum.EventParam("sender", ethereum.Value.fromAddress(sender))
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam("creator", ethereum.Value.fromAddress(creator))
   )
-  contributionMadeEvent.parameters.push(
-    new ethereum.EventParam("amount", ethereum.Value.fromUnsignedBigInt(amount))
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam("issueLink", ethereum.Value.fromString(issueLink))
   )
-  contributionMadeEvent.parameters.push(
+  createFundingEventEvent.parameters.push(
     new ethereum.EventParam(
-      "totalAmount",
-      ethereum.Value.fromUnsignedBigInt(totalAmount)
+      "maxAmount",
+      ethereum.Value.fromUnsignedBigInt(maxAmount)
+    )
+  )
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam(
+      "unlockTime",
+      ethereum.Value.fromUnsignedBigInt(unlockTime)
+    )
+  )
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam(
+      "minAmount",
+      ethereum.Value.fromUnsignedBigInt(minAmount)
+    )
+  )
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam(
+      "feePercentage",
+      ethereum.Value.fromUnsignedBigInt(feePercentage)
+    )
+  )
+  createFundingEventEvent.parameters.push(
+    new ethereum.EventParam(
+      "newFundingAddress",
+      ethereum.Value.fromAddress(newFundingAddress)
     )
   )
 
-  return contributionMadeEvent
-}
-
-export function createFeeTransferredEvent(
-  factoryOwner: Address,
-  fee: BigInt
-): FeeTransferred {
-  let feeTransferredEvent = changetype<FeeTransferred>(newMockEvent())
-
-  feeTransferredEvent.parameters = new Array()
-
-  feeTransferredEvent.parameters.push(
-    new ethereum.EventParam(
-      "factoryOwner",
-      ethereum.Value.fromAddress(factoryOwner)
-    )
-  )
-  feeTransferredEvent.parameters.push(
-    new ethereum.EventParam("fee", ethereum.Value.fromUnsignedBigInt(fee))
-  )
-
-  return feeTransferredEvent
-}
-
-export function createFundsWithdrawnEvent(
-  owner: Address,
-  amount: BigInt
-): FundsWithdrawn {
-  let fundsWithdrawnEvent = changetype<FundsWithdrawn>(newMockEvent())
-
-  fundsWithdrawnEvent.parameters = new Array()
-
-  fundsWithdrawnEvent.parameters.push(
-    new ethereum.EventParam("owner", ethereum.Value.fromAddress(owner))
-  )
-  fundsWithdrawnEvent.parameters.push(
-    new ethereum.EventParam("amount", ethereum.Value.fromUnsignedBigInt(amount))
-  )
-
-  return fundsWithdrawnEvent
-}
-
-export function createGoalReachedEvent(): GoalReached {
-  let goalReachedEvent = changetype<GoalReached>(newMockEvent())
-
-  goalReachedEvent.parameters = new Array()
-
-  return goalReachedEvent
+  return createFundingEventEvent
 }
