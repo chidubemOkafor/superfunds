@@ -21,7 +21,8 @@ const Proposal = () => {
       <div className="flex flex-col w-[50em]">
         <AlertBox
           type="warning"
-          description="This project has not been verified."
+          title="note"
+          description="You need to be the owner of this proposal in order to withdraw."
         />
         {isLoading && <SkeletonCard className='w-full mt-10'/>}
         {error && (

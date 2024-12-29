@@ -8,8 +8,9 @@ export const useDeposit = () => {
     const { handleNotification } = useNotification()
 
     const handleDeposit = async(value: string, address: string) => {
-        setIsLoading(true)
         try {
+            setIsLoading(true)
+
             const contract = await connectContract({type: 'generated', contract_address: address});
             if (!contract) {
                 console.error("Failed to connect to contract");

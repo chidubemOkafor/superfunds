@@ -219,10 +219,10 @@ const CreateProposal:React.FC = () => {
               {!isLoading ? <IoFlash className="h-[40px] w-[40px]" /> : <Spinner className='mr-5 text-[20px]'/>}
               Create Proposal
             </button> : 
-                <div className='flex flex-col gap-3'>
-                    <AlertBox description={'your wallet is not connected!'} type='error'/>
-                    <ConnectButton/>
-                </div>       
+              <div className='flex flex-col gap-3'>
+                  <AlertBox description={'your wallet is not connected!'} type='error'/>
+                  <ConnectButton/>
+              </div>       
             }
           </Form>
         )}

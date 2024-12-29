@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, AlertDescription, AlertTitle } from './alert'
 
 interface alertProp {
+    title?: string
     description: string
     type: 'info' | 'error' | 'warning' | 'success'
     className?: string
@@ -10,6 +11,7 @@ interface alertProp {
 const AlertBox:React.FC<alertProp> = ({
     description,
     type,
+    title = '',
     className = ''
 }) => {
   const typeStyle = () => {
@@ -25,7 +27,7 @@ const AlertBox:React.FC<alertProp> = ({
   }
   return (
     <Alert className={`${typeStyle()} ${className}`}>
-        <AlertTitle>{type}</AlertTitle>
+        <AlertTitle>{title === '' ? type : title}</AlertTitle>
         <AlertDescription>
            {description}
         </AlertDescription>

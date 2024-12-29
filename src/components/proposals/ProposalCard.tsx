@@ -15,6 +15,14 @@ import { Link, useNavigate } from "react-router";
 import { reduceString } from "../../utils/reduceString";
 import { useFetchCurrentValue } from "../../hook/useFetchCurrentValue";
 import { progressPercentage } from "../../utils/calculatePercentage";
+import { useIsDepositOrWithdraw } from "../../hook/useIsDepositOrWithdraw";
+import { useEffect } from "react";
+import { useWithdraw } from "../../hook/useWithDraw";
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css"  
+import { Spinner } from "../createproposal/Spinner"
+import { PiCopySimpleBold } from "react-icons/pi";
+import { copyToClipBoard } from "../../utils/copyToClipBoard";
 
 interface proposalCardProp {
     className?: string
@@ -27,7 +35,11 @@ const ProposalCard:React.FC<proposalCardProp> = ({
     type = 'card',
     data = {}
 }) => {
-    const {currentAmount} = useFetchCurrentValue(data.newFundingAddress)
+    console.log(data.unlockTime)
+    const { currentAmount } = useFetchCurrentValue(data.newFundingAddress)
+    const { isDeposit, checkTime } = useIsDepositOrWithdraw()
+    const { isLoading, handleWithdraw } = useWithdraw()
+
     const navigate = useNavigate()
 
     const spanIcon = 'flex items-center gap-2 text-gray-500'
@@ -40,22 +52,31 @@ const ProposalCard:React.FC<proposalCardProp> = ({
     const unlockTIme = getTimeUntilUnlock(data.unlockTime)
     const maxAmount = fromWeiToEther(data.maxAmount)
     const minimumAmount = fromWeiToEther(data.minAmount)
-
     const percentage = progressPercentage(maxAmount, currentAmount)
+
+    useEffect(() => {
+        checkTime(data.unlockTime)
+    },[data.unlockTImec, checkTime])
 
     return (
     <div className={`p-5 ${type === 'card' && 'hover:shadow-md'} border rounded-md flex flex-col gap-3 w-[40em] mb-20 ${className}`}>
-        <div>
-            <p className='text-gray-500'>Created by {data.creator}</p>
-            <p className='underline decoration-gray-500 hover:decoration-gray-800'><span className='faint'>Proposal </span>#{reduceString(data.id, 7)} Proposal list page</p>
+        <ToastContainer/>
+        <div className="flex justify-between">
+            <div>
+                <p className='text-gray-500'>Created by {data.creator}</p>
+                <p className='underline decoration-gray-500 hover:decoration-gray-800'><span className='faint'>Proposal </span>#{reduceString(data.id, 7)} Proposal list page</p>
+            </div>
+            <PiCopySimpleBold 
+                className="cursor-pointer"
+                onClick={() => copyToClipBoard(window.location.href)}
+            />
         </div>
-        
-        <Progress value={percentage} className='[&>*]:bg-[#0f50e7d8] bg-blue-50 h-1'/>
+        <Progress value={percentage} className='[&>*]:bg-[#0f50e7d8] bg-blue-50 h-3'/>
         {type === 'page' && 
-        <div className="pb-[2em] flex justify-between">
-        <span className="text-sm text-gray-600 text-left font-bold">({currentAmount} / {maxAmount} ETH) </span>
-        <p className="font-bold text-2xl text-[#0f50e7d8]"><span className="text-blue-300">{percentage}</span>/100% </p>
-        </div>
+            <div className="pb-[2em] flex justify-between">
+                <span className="text-sm text-gray-600 text-left font-bold">({currentAmount} / {maxAmount} ETH) </span>
+                <p className="font-bold text-2xl text-[#0f50e7d8]"><span className="text-blue-300">{percentage}</span>/100% </p>
+            </div>
         }
         
         <div className='flex justify-between items-center'>
@@ -75,23 +96,29 @@ const ProposalCard:React.FC<proposalCardProp> = ({
                 <span className={text}>{data.feePercentage}%</span>
                 <span className={`${text} cursor-pointer hover:underline`}><Link to={data.issueLink}>{getRepoNameFromUrl(data.issueLink)}</Link></span>
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
                 {type === 'card' &&
-                <button onClick={() => handleRedirect(data.id)} className='bg-[#0f50e7d8] rounded-md p-[10px] border-none text-white font-bold flex items-center justify-center text-[16px]'>
-                    Detail
-                </button>
+                    <button onClick={() => handleRedirect(data.id)} className='bg-[#0f50e7d8] rounded-md p-[10px] border-none text-white font-bold flex items-center justify-center text-[16px]'>
+                        Detail
+                    </button>
                 }
-            
-                {type === 'page' &&
-                <div className="relative inline-block rounded-[10px] bg-gradient-to-r from-gray-700 via-pink-500 to-red-500 p-[4px]">
-                    <div className="bg-white text-black font-bold rounded-md px-[20px] p-2 flex items-center justify-center text-[16px] w-full h-full">
+                {type === 'page' && (!isDeposit  ?
+                    <div className={`bg-[#0f50e7d8] text-white font-bold rounded-md px-[20px] p-2 flex items-center justify-center text-[16px] w-full h-full`}>
                         <AlertDialogBox 
                             minAmount={fromWeiToEther(data.minAmount)} 
                             maxAmount={fromWeiToEther(data.maxAmount)}
                             address={data.newFundingAddress}
+                            disabled={percentage === 100}
                         />
-                    </div>
-                </div>}
+                    </div> :
+                    <button 
+                    onClick={() => handleWithdraw(data.newFundingAddress)}
+                    className= {`bg-[#0f50e7d8] text-white px-[20px] p-2 rounded-md hover:bg-blue-600 ${isLoading && 'cursor-not-allowed bg-[#7196eed8]'} flex items-center gap-1`}>
+                        {isLoading && <Spinner className='mr-5 text-[20px]'/>}
+                        withdraw
+                    </button>
+                )
+                }
             </div>
         </div>
     </div>
