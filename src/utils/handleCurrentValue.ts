@@ -1,4 +1,5 @@
 import { connectContract } from "../config/contractConfig"
+import { Funding } from "../interface/typechain-types/funding";
 import { fromWeiToEther } from "../utils/fromWeiToEther"
 
 
@@ -14,7 +15,7 @@ export const handleCurrentValue = async (address: string): Promise<number | null
             throw new Error("Contract connection failed")
         }
 
-        const currentValue = await contract.totalFunds()
+        const currentValue = await (contract as Funding).totalFunds()
         return fromWeiToEther(parseInt(currentValue))
     } catch (error) {
         console.error("Error fetching current value:", error)

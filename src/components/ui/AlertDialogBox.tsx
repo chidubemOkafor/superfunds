@@ -1,6 +1,5 @@
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -24,8 +23,6 @@ const AlertDialogBox:React.FC<{
     }> = (
     {
         minAmount = 0,
-        maxAmount,
-        disabled = false,
         address
     }
 ) => {
@@ -38,10 +35,10 @@ const AlertDialogBox:React.FC<{
     }
 
     return (
-    <AlertDialog>
+    <AlertDialog >
         <ToastContainer/>
         <AlertDialogTrigger>Deposit</AlertDialogTrigger>
-        <AlertDialogContent>
+    <AlertDialogContent className="bg-white rounded-md w-[90%]">
             <AlertDialogHeader>
                 <AlertDialogTitle className="text-yellow-600">Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription className="text-yellow-600">Please before you deposit to this project verify that the project is a legitemate project with legitimate contributors any funds sent will not be refundable.</AlertDialogDescription>
@@ -53,7 +50,7 @@ const AlertDialogBox:React.FC<{
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <button className={`bg-blue-700 text-white px-4 rounded-md hover:bg-blue-600 ${isLoading && 'cursor-not-allowed bg-[#7196eed8]'} flex items-center gap-1`} 
+                    <button className={`bg-blue-700 text-white px-4 rounded-md hover:bg-blue-600 ${isLoading && 'cursor-not-allowed bg-[#7196eed8]'} flex items-center justify-center h-11 gap-1`} 
                         type="submit"
                         disabled={isLoading}>
                         {isLoading && <Spinner className='mr-5 text-[20px]'/>} Continue

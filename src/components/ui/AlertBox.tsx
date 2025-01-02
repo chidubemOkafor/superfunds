@@ -26,7 +26,7 @@ const AlertBox:React.FC<alertProp> = ({
     }
   }
   return (
-    <Alert className={`${typeStyle()} ${className}`}>
+    <Alert className={`${typeStyle()} ${className} bg-white`}>
         <AlertTitle>{title === '' ? type : title}</AlertTitle>
         <AlertDescription>
            {description}

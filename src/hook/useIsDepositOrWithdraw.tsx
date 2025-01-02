@@ -1,12 +1,14 @@
 import { useState } from "react";
 
 export const useIsDepositOrWithdraw = () => {
-    const [isDeposit, setIsDeposit] = useState<boolean>(false);
+    const [isDeposit, setIsDeposit] = useState<boolean>(true);
 
-    const checkTime = (proposalTime: number) => {
-        setIsDeposit(proposalTime < Math.floor(Date.now() / 1000));
-        console.log("proposalTIme: ",proposalTime);
-        console.log("currentTIme: ",Math.floor(Date.now() / 1000));
+    const checkTime = (proposalTime: number, currentAmount: number, maxAmount: number) =>  {
+        // if time has not reached isDeposit is false
+        if (proposalTime >= Math.floor(Date.now() / 1000) || currentAmount >= maxAmount) {
+            setIsDeposit(false)
+        }
     }
+    
     return { isDeposit, checkTime };
 };

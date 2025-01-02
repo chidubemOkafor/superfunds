@@ -8,9 +8,9 @@ dataSources:
     name: CreateFunding
     network: sepolia
     source:
-      address: "0xe2e4e2F44394B2F05cb5298e64aFd640b328666C"
+      address: '0x78414863CD7798aB4e7ae6d9A33cE0A9d88133B0'
       abi: CreateFunding
-      startBlock: 7389414
+      startBlock: 7408541
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -24,3 +24,24 @@ dataSources:
         - event: CreateFundingEvent(indexed address,string,uint256,uint256,uint256,uint256,address)
           handler: handleCreateFundingEvent
       file: ./src/create-funding.ts
+templates:
+  - name: Funding
+    kind: ethereum
+    network: sepolia
+    source:
+      abi: Funding
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/funding.ts
+      entities:
+        - FundingEvent
+      abis:
+        - name: Funding
+          file: ./abis/Funding.json
+      eventHandlers:
+        - event: FundsWithdrawn(indexed address,uint256)
+          handler: handleFundsWithdrawn
+        - event: ContributionMade(indexed address,indexed address,uint256,uint256)
+          handler: handleContributionMade

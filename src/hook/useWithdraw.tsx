@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { connectContract } from "../config/contractConfig"
 import { useNotification, Ntype } from "../hook/useNotification"
+import { Funding } from "../interface/typechain-types/funding"
 
 export const useWithdraw = () => {
     const { handleNotification } = useNotification()
@@ -17,7 +18,7 @@ export const useWithdraw = () => {
                 
             }
 
-            const tx = await contract.withdraw()
+            const tx = await (contract as Funding).withdraw()
             const reciept = await tx.wait()
 
             if(reciept.status === 0) {

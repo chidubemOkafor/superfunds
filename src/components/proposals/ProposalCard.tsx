@@ -13,16 +13,17 @@ import { getTimeUntilUnlock } from "../../utils/parseTime";
 import { getRepoNameFromUrl } from "../../utils/parseUrl";
 import { Link, useNavigate } from "react-router";
 import { reduceString } from "../../utils/reduceString";
-import { useFetchCurrentValue } from "../../hook/useFetchCurrentValue";
 import { progressPercentage } from "../../utils/calculatePercentage";
 import { useIsDepositOrWithdraw } from "../../hook/useIsDepositOrWithdraw";
 import { useEffect } from "react";
-import { useWithdraw } from "../../hook/useWithDraw";
+import { useWithdraw } from "../../hook/useWithdraw";
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"  
 import { Spinner } from "../createproposal/Spinner"
 import { PiCopySimpleBold } from "react-icons/pi";
 import { copyToClipBoard } from "../../utils/copyToClipBoard";
+import { useAccount } from "wagmi";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface proposalCardProp {
     className?: string
@@ -35,8 +36,7 @@ const ProposalCard:React.FC<proposalCardProp> = ({
     type = 'card',
     data = {}
 }) => {
-    console.log(data.unlockTime)
-    const { currentAmount } = useFetchCurrentValue(data.newFundingAddress)
+    const { isConnected } = useAccount()
     const { isDeposit, checkTime } = useIsDepositOrWithdraw()
     const { isLoading, handleWithdraw } = useWithdraw()
 
@@ -49,17 +49,19 @@ const ProposalCard:React.FC<proposalCardProp> = ({
         navigate(`proposal/${id}`)
     }
 
+    const currentAmount = fromWeiToEther(parseInt(data.currentAmount))
     const unlockTIme = getTimeUntilUnlock(data.unlockTime)
     const maxAmount = fromWeiToEther(data.maxAmount)
     const minimumAmount = fromWeiToEther(data.minAmount)
     const percentage = progressPercentage(maxAmount, currentAmount)
 
     useEffect(() => {
-        checkTime(data.unlockTime)
-    },[data.unlockTImec, checkTime])
+        checkTime(data.unlockTime,data.currentAmount, data.maxAmount)
+    },[data.unlockTime, checkTime,data.currentAmount, data.maxAmount])
 
     return (
-    <div className={`p-5 ${type === 'card' && 'hover:shadow-md'} border rounded-md flex flex-col gap-3 w-[40em] mb-20 ${className}`}>
+    <div className={`rounded-md flex w-full justify-center`}>
+        <div className={`p-5 ${type === 'card' && 'hover:shadow-md'} border rounded-md flex flex-col gap-3 mb-20 w-full ${className}`}>
         <ToastContainer/>
         <div className="flex justify-between">
             <div>
@@ -79,30 +81,32 @@ const ProposalCard:React.FC<proposalCardProp> = ({
             </div>
         }
         
-        <div className='flex justify-between items-center'>
-            <div className='flex flex-col gap-2'>
-                <span className={spanIcon}><FcAlarmClock/>Duration:</span>
-                <span className={spanIcon}><FcCurrencyExchange/>Amount:</span>
-                <span className={spanIcon}><FcMoneyTransfer/>Minimum Amount:</span>
-                <span className={spanIcon}><FcDepartment/>Funding:</span>
-                <span className={spanIcon}><FcDonate/>Network fee:</span>
-                <span className={spanIcon}><FcLink/>Project url:</span>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-5'>
+            <div className="flex justify-between items-center gap-10">
+                <div className='flex flex-col gap-2'>
+                    <span className={spanIcon}><FcAlarmClock/>Duration:</span>
+                    <span className={spanIcon}><FcCurrencyExchange/>Amount:</span>
+                    <span className={spanIcon}><FcMoneyTransfer/>Minimum Amount:</span>
+                    <span className={spanIcon}><FcDepartment/>Funding:</span>
+                    <span className={spanIcon}><FcDonate/>Network fee:</span>
+                    <span className={spanIcon}><FcLink/>Project url:</span>
+                </div>
+                <div className='flex flex-col gap-2'>
+                    <span className={text}>{unlockTIme}</span>
+                    <span className={text}>{maxAmount} ETH</span>
+                    <span className={text}>{minimumAmount} ETH</span>
+                    <span className={text}>{`${percentage}% (${currentAmount} ETH)`}</span>
+                    <span className={text}>{data.feePercentage}%</span>
+                    <span className={`${text} cursor-pointer hover:underline`}><Link to={data.issueLink}>{getRepoNameFromUrl(data.issueLink)}</Link></span>
+                </div>
             </div>
-            <div className='flex flex-col gap-2'>
-                <span className={text}>{unlockTIme}</span>
-                <span className={text}>{maxAmount} ETH</span>
-                <span className={text}>{minimumAmount} ETH</span>
-                <span className={text}>{`${percentage}% (${currentAmount} ETH)`}</span>
-                <span className={text}>{data.feePercentage}%</span>
-                <span className={`${text} cursor-pointer hover:underline`}><Link to={data.issueLink}>{getRepoNameFromUrl(data.issueLink)}</Link></span>
-            </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 w-full sm:w-auto">
                 {type === 'card' &&
                     <button onClick={() => handleRedirect(data.id)} className='bg-[#0f50e7d8] rounded-md p-[10px] border-none text-white font-bold flex items-center justify-center text-[16px]'>
                         Detail
                     </button>
                 }
-                {type === 'page' && (!isDeposit  ?
+                {isConnected ? type === 'page' && (isDeposit  ?
                     <div className={`bg-[#0f50e7d8] text-white font-bold rounded-md px-[20px] p-2 flex items-center justify-center text-[16px] w-full h-full`}>
                         <AlertDialogBox 
                             minAmount={fromWeiToEther(data.minAmount)} 
@@ -118,8 +122,9 @@ const ProposalCard:React.FC<proposalCardProp> = ({
                         withdraw
                     </button>
                 )
-                }
+                : <ConnectButton/>}
             </div>
+        </div>
         </div>
     </div>
   )

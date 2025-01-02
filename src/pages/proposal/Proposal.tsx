@@ -14,7 +14,8 @@ const Proposal = () => {
   );
 
   const { id } = useParams<{ id: string }>();
-  const newData = data?.createFundingEvents?.find((item: any) => item.id === id);
+
+  const newData = (data as { createFundingEvents: any[] }).createFundingEvents?.find((item: any) => item.id === id);
 
   return (
     <div className="flex justify-center">

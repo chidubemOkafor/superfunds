@@ -1,4 +1,4 @@
-export const funding_abi = [
+[
     {
       "inputs": [
         {

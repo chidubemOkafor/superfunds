@@ -2,196 +2,130 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
-  BaseContract,
-  BigNumberish,
-  BytesLike,
   FunctionFragment,
-  Result,
-  Interface,
+  Typed,
   EventFragment,
-  AddressLike,
-  ContractRunner,
-  ContractMethod,
-  Listener,
+  ContractTransaction,
+  ContractTransactionResponse,
+  DeferredTopicFilter,
+  EventLog,
+  TransactionRequest,
+  LogDescription,
 } from "ethers";
-import type {
-  TypedContractEvent,
-  TypedDeferredTopicFilter,
-  TypedEventLog,
-  TypedLogDescription,
-  TypedListener,
-  TypedContractMethod,
-} from "../common";
 
-export interface CreateFundingInterface extends Interface {
-  getFunction(
-    nameOrSignature:
-      | "FundingArray"
-      | "createNewFunding"
-      | "getAllFundingCampaign"
-  ): FunctionFragment;
+export interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent>
+  extends DeferredTopicFilter {}
 
-  getEvent(nameOrSignatureOrTopic: "CreateFundingEvent"): EventFragment;
-
-  encodeFunctionData(
-    functionFragment: "FundingArray",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createNewFunding",
-    values: [string, BigNumberish, BigNumberish, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAllFundingCampaign",
-    values?: undefined
-  ): string;
-
-  decodeFunctionResult(
-    functionFragment: "FundingArray",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "createNewFunding",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAllFundingCampaign",
-    data: BytesLike
-  ): Result;
+export interface TypedContractEvent<
+  InputTuple extends Array<any> = any,
+  OutputTuple extends Array<any> = any,
+  OutputObject = any
+> {
+  (...args: Partial<InputTuple>): TypedDeferredTopicFilter<
+    TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  >;
+  name: string;
+  fragment: EventFragment;
+  getFragment(...args: Partial<InputTuple>): EventFragment;
 }
 
-export namespace CreateFundingEventEvent {
-  export type InputTuple = [
-    creator: AddressLike,
-    issueLink: string,
-    maxAmount: BigNumberish,
-    unlockTime: BigNumberish,
-    minAmount: BigNumberish,
-    feePercentage: BigNumberish
-  ];
-  export type OutputTuple = [
-    creator: string,
-    issueLink: string,
-    maxAmount: bigint,
-    unlockTime: bigint,
-    minAmount: bigint,
-    feePercentage: bigint
-  ];
-  export interface OutputObject {
-    creator: string;
-    issueLink: string;
-    maxAmount: bigint;
-    unlockTime: bigint;
-    minAmount: bigint;
-    feePercentage: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+type __TypechainAOutputTuple<T> = T extends TypedContractEvent<
+  infer _U,
+  infer W
+>
+  ? W
+  : never;
+type __TypechainOutputObject<T> = T extends TypedContractEvent<
+  infer _U,
+  infer _W,
+  infer V
+>
+  ? V
+  : never;
+
+export interface TypedEventLog<TCEvent extends TypedContractEvent>
+  extends Omit<EventLog, "args"> {
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>;
 }
 
-export interface CreateFunding extends BaseContract {
-  connect(runner?: ContractRunner | null): CreateFunding;
-  waitForDeployment(): Promise<this>;
+export interface TypedLogDescription<TCEvent extends TypedContractEvent>
+  extends Omit<LogDescription, "args"> {
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>;
+}
 
-  interface: CreateFundingInterface;
+export type TypedListener<TCEvent extends TypedContractEvent> = (
+  ...listenerArg: [
+    ...__TypechainAOutputTuple<TCEvent>,
+    TypedEventLog<TCEvent>,
+    ...undefined[]
+  ]
+) => void;
 
-  queryFilter<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
-  queryFilter<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+export type MinEthersFactory<C, ARGS> = {
+  deploy(...a: ARGS[]): Promise<C>;
+};
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+export type GetContractTypeFromFactory<F> = F extends MinEthersFactory<
+  infer C,
+  any
+>
+  ? C
+  : never;
+export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any>
+  ? Parameters<F["deploy"]>
+  : never;
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+export type StateMutability = "nonpayable" | "payable" | "view";
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+export type BaseOverrides = Omit<TransactionRequest, "to" | "data">;
+export type NonPayableOverrides = Omit<
+  BaseOverrides,
+  "value" | "blockTag" | "enableCcipRead"
+>;
+export type PayableOverrides = Omit<
+  BaseOverrides,
+  "blockTag" | "enableCcipRead"
+>;
+export type ViewOverrides = Omit<TransactionRequest, "to" | "data">;
+export type Overrides<S extends StateMutability> = S extends "nonpayable"
+  ? NonPayableOverrides
+  : S extends "payable"
+  ? PayableOverrides
+  : ViewOverrides;
 
-  FundingArray: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+export type PostfixOverrides<A extends Array<any>, S extends StateMutability> =
+  | A
+  | [...A, Overrides<S>];
+export type ContractMethodArgs<
+  A extends Array<any>,
+  S extends StateMutability
+> = PostfixOverrides<{ [I in keyof A]-?: A[I] | Typed }, S>;
 
-  createNewFunding: TypedContractMethod<
-    [
-      _issueLink: string,
-      _maxAmount: BigNumberish,
-      _unlockTime: BigNumberish,
-      _minAmount: BigNumberish,
-      _feePercentage: BigNumberish
-    ],
-    [void],
-    "nonpayable"
-  >;
+export type DefaultReturnType<R> = R extends Array<any> ? R[0] : R;
 
-  getAllFundingCampaign: TypedContractMethod<[], [string[]], "view">;
+// export interface ContractMethod<A extends Array<any> = Array<any>, R = any, D extends R | ContractTransactionResponse = R | ContractTransactionResponse> {
+export interface TypedContractMethod<
+  A extends Array<any> = Array<any>,
+  R = any,
+  S extends StateMutability = "payable"
+> {
+  (...args: ContractMethodArgs<A, S>): S extends "view"
+    ? Promise<DefaultReturnType<R>>
+    : Promise<ContractTransactionResponse>;
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  name: string;
 
-  getFunction(
-    nameOrSignature: "FundingArray"
-  ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
-  getFunction(
-    nameOrSignature: "createNewFunding"
-  ): TypedContractMethod<
-    [
-      _issueLink: string,
-      _maxAmount: BigNumberish,
-      _unlockTime: BigNumberish,
-      _minAmount: BigNumberish,
-      _feePercentage: BigNumberish
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "getAllFundingCampaign"
-  ): TypedContractMethod<[], [string[]], "view">;
+  fragment: FunctionFragment;
 
-  getEvent(
-    key: "CreateFundingEvent"
-  ): TypedContractEvent<
-    CreateFundingEventEvent.InputTuple,
-    CreateFundingEventEvent.OutputTuple,
-    CreateFundingEventEvent.OutputObject
-  >;
+  getFragment(...args: ContractMethodArgs<A, S>): FunctionFragment;
 
-  filters: {
-    "CreateFundingEvent(address,string,uint256,uint256,uint256,uint256)": TypedContractEvent<
-      CreateFundingEventEvent.InputTuple,
-      CreateFundingEventEvent.OutputTuple,
-      CreateFundingEventEvent.OutputObject
-    >;
-    CreateFundingEvent: TypedContractEvent<
-      CreateFundingEventEvent.InputTuple,
-      CreateFundingEventEvent.OutputTuple,
-      CreateFundingEventEvent.OutputObject
-    >;
-  };
+  populateTransaction(
+    ...args: ContractMethodArgs<A, S>
+  ): Promise<ContractTransaction>;
+  staticCall(
+    ...args: ContractMethodArgs<A, "view">
+  ): Promise<DefaultReturnType<R>>;
+  send(...args: ContractMethodArgs<A, S>): Promise<ContractTransactionResponse>;
+  estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
+  staticCallResult(...args: ContractMethodArgs<A, "view">): Promise<R>;
 }

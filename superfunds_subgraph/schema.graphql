@@ -1,5 +1,5 @@
-type CreateFundingEvent @entity(immutable: true) {
-  id: Bytes!
+type CreateFundingEvent @entity {
+  id: ID!
   creator: Bytes! # address
   issueLink: String! # string
   maxAmount: BigInt! # uint256
@@ -10,4 +10,34 @@ type CreateFundingEvent @entity(immutable: true) {
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
+  isActive: Boolean!
+  currentAmount: BigInt!
+}
+
+type FundsWithdrawn @entity {
+  id: ID!
+  owner: Bytes!
+  amount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+# event ContributionMade(address indexed sender, address owner, uint amount, uint totalAmount);
+type ContributionMade @entity {
+  id: ID!
+  sender: Bytes!
+  owner: Bytes!
+  amount: BigInt!
+  totalAmount: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+# this is to connect the generated contract to the createFundingEvent in the factory contract
+type OwnerToFundingMap @entity {
+  id: ID!
+  owner: Bytes!
+  fundingEventId: String!
 }

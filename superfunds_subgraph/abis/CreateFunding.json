@@ -1,5 +1,9 @@
 [
-  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -50,34 +54,36 @@
     "type": "event"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "FundingArray",
-    "outputs": [
-      { "internalType": "contract Funding", "name": "", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
-      { "internalType": "string", "name": "_issueLink", "type": "string" },
-      { "internalType": "uint256", "name": "_maxAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "_unlockTime", "type": "uint256" },
-      { "internalType": "uint256", "name": "_minAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "_feePercentage", "type": "uint256" }
+      {
+        "internalType": "string",
+        "name": "_issueLink",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_unlockTime",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_minAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_feePercentage",
+        "type": "uint256"
+      }
     ],
     "name": "createNewFunding",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAllFundingCampaign",
-    "outputs": [
-      { "internalType": "contract Funding[]", "name": "", "type": "address[]" }
-    ],
-    "stateMutability": "view",
     "type": "function"
   }
 ]

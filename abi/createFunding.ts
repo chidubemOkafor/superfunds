@@ -1,5 +1,10 @@
 export const create_funding_abi =  [
   {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -51,25 +56,6 @@ export const create_funding_abi =  [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "FundingArray",
-    "outputs": [
-      {
-        "internalType": "contract Funding",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "string",
         "name": "_issueLink",
         "type": "string"
@@ -98,19 +84,6 @@ export const create_funding_abi =  [
     "name": "createNewFunding",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getAllFundingCampaign",
-    "outputs": [
-      {
-        "internalType": "contract Funding[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   }
 ]

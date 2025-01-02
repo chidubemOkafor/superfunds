@@ -14,6 +14,7 @@ import { useNotification } from '../../hook/useNotification';
 import { Ntype } from '../../hook/useNotification';
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"  
+import { CreateFunding } from '../../interface/typechain-types/createfunding';
 
 export interface FormValues {
   issueLink: string;
@@ -62,7 +63,7 @@ const CreateProposal:React.FC = () => {
         throw new Error("Contract connection failed");
       }
 
-      const tx = await fundingContract.createNewFunding(
+      const tx = await (fundingContract as CreateFunding).createNewFunding(
         data.issueLink,
         ethers.parseEther(data.maxAmount),
         BigInt(data.unlockTime),
@@ -71,7 +72,7 @@ const CreateProposal:React.FC = () => {
       );
 
       const receipt = await tx.wait();
-      if (receipt.status === 0) {
+      if (receipt?.status === 0) {
         handleNotification({type: Ntype.error , message: "Transaction failed"} )
         console.error("Transaction failed");
         throw new Error("Transaction reverted");
@@ -101,7 +102,7 @@ const CreateProposal:React.FC = () => {
         onSubmit={handleSubmit}
       >
         {({ values, handleChange, handleBlur, setFieldValue }) => (
-          <Form className="w-[31em] flex flex-col gap-7">
+          <Form className="w-[90%] sm:w-[35em] flex flex-col gap-7">
             <div className="flex flex-col gap-1">
               <label htmlFor="issueLink" className="font-bold">
                 GitHub repository Link<span className="text-red-600">*</span>
@@ -127,7 +128,7 @@ const CreateProposal:React.FC = () => {
                 id="maxAmount"
                 name="maxAmount"
                 type="number"
-                step="0.005"
+                step="0.001"
                 min={0}
                 placeholder="Maximum Amount"
                 onChange={handleChange}
@@ -146,7 +147,7 @@ const CreateProposal:React.FC = () => {
                 id="minAmount"
                 name="minAmount"
                 type="number"
-                step="0.001"
+                step="0.0001"
                 min={0}
                 placeholder="Minimum amount to donate in Ether"
                 onChange={handleChange}

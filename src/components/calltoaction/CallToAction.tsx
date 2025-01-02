@@ -5,15 +5,15 @@ import { useNavigationAndToggleModal } from "../../hook/useNavigationAndToggleMo
 const CallToAction = () => {
   const { handleNavigation } = useNavigationAndToggleModal()
 
-  const stepsDiv = 'flex justify-between'
-  const steps = 'w-[13em] bg-[#f6f3f3] p-[10px] rounded-md border-[2px] border-[#d3d3d3] cursor-pointer flex flex-col items-center text-center'
+  const stepsDiv = 'flex flex-col sm:flex-row gap-3 items-center h-full sm:h-[10em]';
+  const steps = 'w-full h-full bg-[#f6f3f3] p-[10px] rounded-md border-[2px] border-[#d3d3d3] cursor-pointer flex flex-col items-center text-center'
   const icons = 'h-[40px] w-[40px]'
   const h4 = 'font-semibold'
   const actionP = 'font-normal text-gray-600'
 
   return (
-    <div className='py-10'>
-        <div className='py-10 flex flex-col gap-3'>
+    <div className='py-10 sm:w-[40em] w-[24em]'>
+        <div className='py-10 flex flex-col gap-3 text-center'>
           <h1 className='text-4xl font-bold'>Speed-run your ideas with superfunds</h1>
           <h4>superfunds creates a way for developers to generate fundings for open-source features</h4>
         </div>
