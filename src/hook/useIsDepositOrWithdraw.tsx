@@ -5,7 +5,7 @@ export const useIsDepositOrWithdraw = () => {
 
     const checkTime = (proposalTime: number, currentAmount: number, maxAmount: number) =>  {
         // if time has not reached isDeposit is false
-        if (proposalTime >= Math.floor(Date.now() / 1000) || currentAmount >= maxAmount) {
+        if (Math.floor(Date.now() / 1000 ) > proposalTime || currentAmount == maxAmount) {
             setIsDeposit(false)
         }
     }
